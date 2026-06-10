@@ -1,0 +1,20 @@
+{
+  "id": "8a850388-1605-4aac-a783-215709bc0724",
+  "name": "ReqRes - QA Environment",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "https://reqres.in",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "api_key",
+      "value": "free_user_3Exe30vnEykkgeUK7tFsSM3Yxas",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "color": null,
+  "_postman_variable_scope": "environment"
+}
