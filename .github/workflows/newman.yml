@@ -1,4 +1,4 @@
-name: Newman API Tests
+name: ReqRes API CI/CD - E2E Chaining Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  api-tests:
+  api-e2e-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,18 +24,18 @@ jobs:
       - name: Install HTML Extra Reporter
         run: npm install -g newman-reporter-htmlextra
 
-      - name: Create timestamp
-        run: echo "REPORT_DATE=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
+      - name: Create timestamp for report
+        run: echo "REPORT_TIME=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
 
-      - name: Run Postman Collection
+      - name: Run E2E API Chaining Tests
         run: |
           newman run collections/ReqRes_Collection.json \
           -e environments/QA_Environment.json \
           -r cli,htmlextra \
-          --reporter-htmlextra-export reports/report_${{ env.REPORT_DATE }}.html
+          --reporter-htmlextra-export reports/e2e_report_${{ env.REPORT_TIME }}.html
 
-      - name: Upload Test Report
+      - name: Upload Test Report Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: newman-report-${{ env.REPORT_DATE }}
+          name: e2e-api-report-${{ env.REPORT_TIME }}
           path: reports/

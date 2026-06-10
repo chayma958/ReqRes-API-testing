@@ -1,0 +1,212 @@
+{
+  "info": {
+    "_postman_id": "ddeb946e-b545-4853-9ca8-36f751c61dae",
+    "name": "E2E_User_Chaining",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55694287"
+  },
+  "item": [
+    {
+      "name": "CREATE User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();\r",
+              "\r",
+              "pm.test(\"User created successfully\", () => {\r",
+              "    pm.expect(pm.response.code).to.eql(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ID is returned\", () => {\r",
+              "    pm.expect(json).to.have.property(\"id\");\r",
+              "});\r",
+              "\r",
+              "pm.environment.set(\"userId\", json.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"job\": \"qa engineer\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"User fetched successfully\", () => {\r",
+              "    pm.expect(pm.response.code).to.eql(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/users/{{userId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UPDATE User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();\r",
+              "\r",
+              "pm.test(\"User updated successfully\", () => {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+              "});\r",
+              "\r",
+              "if (json) {\r",
+              "    pm.test(\"Job is updated\", () => {\r",
+              "        pm.expect(json.job).to.eql(\"senior qa engineer\");\r",
+              "    });\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"updated name\",\r\n  \"job\": \"senior qa engineer\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/{{userId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"User deleted successfully\", () => {\r",
+              "    pm.expect(pm.response.code).to.eql(204);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "pm.test(\"User deleted successfully\", () => {\r\n    pm.expect(pm.response.code).to.eql(204);\r\n});",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/users/{{userId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
