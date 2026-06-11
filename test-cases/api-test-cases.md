@@ -229,4 +229,87 @@ API is available
 ---
 
 
+Here are your **E2E API TEST CASES** written in the same style as your document (clean, QA-ready, and consistent):
+
+---
+
+# 4. END-TO-END (E2E) API CHAINING TEST CASES (P0)
+
+---
+
+## TC-E01 — Verify full user lifecycle (CREATE → GET → UPDATE → DELETE)
+
+**API Flow:**
+
+1. Create User → save `userId`
+2. Get User using `userId`
+3. Update User using `userId`
+4. Delete User using `userId`
+
+---
+
+### Test Steps:
+
+#### Step 1 — CREATE User
+
+* Send `POST /api/users`
+* Store returned `id` as `userId`
+
+### Expected Result:
+
+* Status code = 201
+* Response contains:
+
+  * id
+  * name
+  * job
+  * createdAt
+
+---
+
+#### Step 2 — GET User
+
+* Send `GET /api/users/{{userId}}`
+
+### Expected Result:
+
+* Status code = 200
+* Response contains user data
+* User ID matches stored `userId`
+
+---
+
+#### Step 3 — UPDATE User
+
+* Send `PATCH /api/users/{{userId}}`
+
+### Test Data:
+
+```json
+{
+  "name": "updated name",
+  "job": "senior qa engineer"
+}
+```
+
+### Expected Result:
+
+* Status code = 200 or 204
+* Response contains updated fields (if API returns body)
+* Job = "senior qa engineer"
+
+---
+
+#### Step 4 — DELETE User
+
+* Send `DELETE /api/users/{{userId}}`
+
+### Expected Result:
+
+* Status code = 204
+* Response body is empty
+* User is considered deleted in workflow
+
+---
+
 
