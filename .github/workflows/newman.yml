@@ -28,7 +28,6 @@ jobs:
         run: echo "REPORT_TIME=$(date +%Y%m%d_%H%M%S)" >> $GITHUB_ENV
 
       - name: Run ReqRes Functional Suite
-        continue-on-error: true
         run: |
           newman run collections/ReqRes_Collection.json \
           -e environments/QA_Environment.json \
@@ -36,7 +35,6 @@ jobs:
           --reporter-htmlextra-export reports/reqres_${{ env.REPORT_TIME }}.html
 
       - name: Run E2E Chaining Tests
-        continue-on-error: true
         run: |
           newman run collections/E2E_User_Chaining.json \
           -e environments/QA_Environment.json \
